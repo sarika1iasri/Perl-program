@@ -1,0 +1,31 @@
+### Perl script to Filter out transcript having length <=200#######
+print "Enter the filename: ";
+$infile = <STDIN>;
+chomp $infile;
+%sequences;
+open( IN, $infile ) or die $!;
+open(out,'>sequence_gt_200.fasta');
+while( $line = <IN> )
+{
+      chomp $line;
+      if ($line =~/^(>.*)$/)
+        {
+            $id = $1;
+          #print $id;
+      }
+      elsif ($line!~ /^\s*$/)
+     {
+           $sequences{$id} .= $line;
+      }
+}
+foreach  $i (keys %sequences) 
+{ 
+$seq=$sequences{$i};
+if(length($seq)>200)
+{print out "$i\n";
+print out "$seq\n";
+}
+}
+close (IN);
+close (out);
+exit;
